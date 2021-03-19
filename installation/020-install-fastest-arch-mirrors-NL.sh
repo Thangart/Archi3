@@ -18,9 +18,9 @@ echo "################################################################"
 sudo pacman -S --noconfirm --needed reflector pacman-contrib 
 
 
-echo "################################################################"
+echo "######################################################################"
 echo "####   finding fastest servers be patient for the Netherlands      ###"
-echo "################################################################"
+echo "######################################################################"
 
 # finding the fastest archlinux servers in NL (sorry Erik)
 
@@ -36,7 +36,7 @@ echo "################################################################"
 cat /etc/pacman.d/mirrorlist
 
 
-sudo pacman -Syu
+sudo pacman -Syu --noconfirm
 
 
 echo "################################################################"
