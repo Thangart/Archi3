@@ -42,21 +42,8 @@ if pacman -Qi $package &> /dev/null; then
 
 else
 
-	sudo pacman -S --noconfirm --needed grep sed bash curl pacman jshon expac
-
-	[ -d /tmp/packer ] && rm -rf /tmp/packer
-
-	mkdir /tmp/packer
-
-	wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer
-
-	mv PKGBUILD\?h\=packer /tmp/packer/PKGBUILD
-
-	cd /tmp/packer
-
-	makepkg -i /tmp/packer --noconfirm
-
-	[ -d /tmp/packer ] && rm -rf /tmp/packer
+	# packer is now in comunity repos
+	sudo pacman -S --noconfirm --needed $package
 
 	# Just checking if installation was successful
 	if pacman -Qi $package &> /dev/null; then
