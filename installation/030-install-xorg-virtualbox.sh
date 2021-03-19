@@ -21,7 +21,7 @@ echo "################################################################"
 
 sleep 2
 
-sudo pacman -S virtualbox-guest-utils 
+sudo pacman -S virtualbox-guest-utils --noconfirm --needed
 
 echo "################################################################"
 echo "###################    xorg installed     ######################"
