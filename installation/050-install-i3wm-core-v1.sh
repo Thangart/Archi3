@@ -20,10 +20,7 @@ echo "################################################################"
 
 sudo pacman -S --noconfirm --needed i3lock i3status 
 
-
-
-
-# gnome
+# dmenu
 
 echo "################################################################"
 echo "j4-dmenu-desktop"   
@@ -42,30 +39,14 @@ if pacman -Qi $package &> /dev/null; then
 
 else
 
-	#checking which helper is installed
 	if pacman -Qi packer &> /dev/null; then
 
-		echo "Installing with packer"
-		packer -S --noconfirm --noedit  $package
-
-	elif pacman -Qi pacaur &> /dev/null; then
-		
-		echo "Installing with pacaur"
-		pacaur -S --noconfirm --noedit  $package
-		 	
-	elif pacman -Qi yaourt &> /dev/null; then
-
-		echo "Installing with yaourt"
-		yaourt -S --noconfirm $package
+		echo "Installing with yay"
+		yay -S --noconfirm $package
 			  	
 	fi
 
-
 fi
-
-
-
-
 
 
 echo "################################################################"
@@ -85,23 +66,13 @@ if pacman -Qi $package &> /dev/null; then
 
 else
 
-	#checking which helper is installed
 	if pacman -Qi packer &> /dev/null; then
 
-		echo "Installing with packer"
-		packer -S --noconfirm --noedit  $package
-
-	elif pacman -Qi pacaur &> /dev/null; then
-		
-		echo "Installing with pacaur"
-		pacaur -S --noconfirm --noedit  $package
-		 	
-	elif pacman -Qi yaourt &> /dev/null; then
-
-		echo "Installing with yaourt"
-		yaourt -S --noconfirm $package
+		echo "Installing with yay"
+		yay -S --noconfirm $package
 			  	
 	fi
+
 
 	# Just checking if installation was successful
 	if pacman -Qi $package &> /dev/null; then
@@ -119,8 +90,6 @@ else
 	fi
 
 fi
-
-
 
 echo "################################################################"
 echo "i3-gaps-next-git"   
@@ -139,21 +108,10 @@ if pacman -Qi $package &> /dev/null; then
 
 else
 
-	#checking which helper is installed
 	if pacman -Qi packer &> /dev/null; then
 
-		echo "Installing with packer"
-		packer -S --noconfirm --noedit  $package
-
-	elif pacman -Qi pacaur &> /dev/null; then
-		
-		echo "Installing with pacaur"
-		pacaur -S --noconfirm --noedit  $package
-		 	
-	elif pacman -Qi yaourt &> /dev/null; then
-
-		echo "Installing with yaourt"
-		yaourt -S --noconfirm $package
+		echo "Installing with yay"
+		yay -S --noconfirm $package
 			  	
 	fi
 
@@ -173,10 +131,6 @@ else
 	fi
 
 fi
-
-
-
-
 
 echo "################################################################"
 echo "###################    i3 core installed  ######################"
