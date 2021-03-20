@@ -12,6 +12,7 @@ set -e
 ##################################################################################################################
 
 #software from 'normal' repositories
+sudo pacman -S --noconfirm --needed wget
 sudo pacman -S --noconfirm --needed archey3 baobab bleachbit catfish clementine conky curl
 sudo pacman -S --noconfirm --needed darktable dconf-editor
 sudo pacman -S --noconfirm --needed dmidecode 
