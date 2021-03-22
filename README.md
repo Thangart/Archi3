@@ -1,3 +1,7 @@
+# To Erik
+Loved your work! made my own config based on yours.
+Sorry to see that you kinda left the project. The world needs more bash-fu
+
 # Archi3 
 
 A collection of scripts for a fast an easy installation of all software, icons, themes, cursors, ... automatically.
@@ -86,19 +90,14 @@ A script can only run when it is marked as an executable.
 	ls -al 
 
 Above code will reveal if a script has an "x". X meaning executable.
-Google "chmod" and "execute" and you will find more info.
+Google "chmod" and "execute" a# Archi3 
 
-For now if this happens, you should apply this code in the terminal and add the file name.
+A collection of scripts for a fast an easy installation of all software, icons, themes, cursors, ... automatically.
 
-	chmod +x typeyourfilename
+This is my configuration for I3 improved tiling to be used on any archlinux distribution.
 
-Then you can execute it by typing
 
-	./typeyourfilename
-
-Or you can follow these steps
-
-![Screenshots](http://i.imgur.com/vXsOaFL.gif)
+I will be using the following elements : 
 
 
 -------------------------------------------------

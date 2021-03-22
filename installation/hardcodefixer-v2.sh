@@ -25,48 +25,14 @@ echo "#################################################"
 
 
 echo "################################################################"
-echo "Checking if git is installed"
-echo "Install git for an easy installation"
+echo "Checking if git and curl are installed"
+echo "Install git and curl for an easy installation"
 
 
-	# G I T
-
-	# check if git is installed
-	if which git > /dev/null; then
-		echo "git was installed. Proceding..."
-
-		else
-
-		echo "################################################################"
-		echo "installing git for this script to work"
-		echo "################################################################"
-
-	  	sudo apt-get install git -y
-		  	
-	fi
+./install-helper.sh "git;curl"
 
 git clone https://github.com/Foggalong/hardcode-fixer /tmp/hardcode-fixer
 
-echo "################################################################"
-echo "Checking if curl is installed"
-echo "Install curl for an easy installation"
-
-
-	# curl
-
-	# check if curl is installed
-	if which curl > /dev/null; then
-		echo "curl was installed. Proceding..."
-
-		else
-
-		echo "################################################################"
-		echo "installing curl for this script to work"
-		echo "################################################################"
-
-	  	sudo apt-get install curl -y
-		  	
-	fi
 
 echo "#################################################"
 echo "Checking and changing all hardcoded icons"

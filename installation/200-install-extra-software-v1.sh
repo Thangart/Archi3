@@ -19,7 +19,7 @@ set -e
 
 # Awesome font for icons on i3blocks.conf
 
-#sh install-awesome-font-v1.sh
+sh install-awesome-font-v1.sh
 
 ###############################################################################################
 
@@ -55,7 +55,7 @@ set -e
 
 # Neofetch
 
-sh install-neofetch-v1.sh
+# sh install-neofetch-v1.sh
 
 ###############################################################################################
 
@@ -73,7 +73,7 @@ sh install-spotify-v1.sh
 
 # Sublime text 3
 
-sh install-sublime-text-v1.sh
+# sh install-sublime-text-v1.sh
 
 ###############################################################################################
 
@@ -85,7 +85,7 @@ sh install-sublime-text-v1.sh
 
 # Visual studio code
 
-#sh install-visual-studio-code-v1.sh
+sh install-visual-studio-code-v1.sh
 
 ###############################################################################################
 
@@ -97,7 +97,7 @@ sh install-sublime-text-v1.sh
 
 # zsh
 
-#sh install-zsh-v1.sh
+sh install-zsh-v1.sh
 
 ###############################################################################################
 

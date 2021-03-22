@@ -17,16 +17,19 @@ sudo pacman -S --noconfirm --needed archey3 baobab curl
 sudo pacman -S --noconfirm --needed dconf-editor
 sudo pacman -S --noconfirm --needed dmidecode 
 sudo pacman -S --noconfirm --needed evince chromium
-sudo pacman -S --noconfirm --needed galculator git gksu glances gnome-disk-utility 
+sudo pacman -S --noconfirm --needed galculator git glances gnome-disk-utility 
 sudo pacman -S --noconfirm --needed gnome-font-viewer gnome-screenshot gnome-system-monitor gnome-terminal gnome-tweak-tool 
 sudo pacman -S --noconfirm --needed gparted gpick grsync
 sudo pacman -S --noconfirm --needed hardinfo hddtemp htop 
-sudo pacman -S --noconfirm --needed inxi lm_sensors lsb-release meld mlocate mpv
+sudo pacman -S --noconfirm --needed lm_sensors lsb-release meld mlocate mpv
 sudo pacman -S --noconfirm --needed nemo net-tools numlockx polkit-gnome 
 sudo pacman -S --noconfirm --needed ristretto screenfetch
 sudo pacman -S --noconfirm --needed simplescreenrecorder 
 sudo pacman -S --noconfirm --needed terminator
 sudo pacman -S --noconfirm --needed vlc vnstat wget unclutter  
+
+# Install gksu trough aur
+./install-helper.sh "gksu"
 
 sudo systemctl enable vnstat
 sudo systemctl start vnstat

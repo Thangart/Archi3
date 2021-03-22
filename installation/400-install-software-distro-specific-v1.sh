@@ -35,7 +35,6 @@ sudo pacman -S ttf-droid --noconfirm --noconfirm --needed
 sudo pacman -S ttf-inconsolata --noconfirm --needed
 
 #Utilities
-sudo pacman -S pamac --noconfirm --needed 
 sudo pacman -S notify-osd  --noconfirm --needed
 sudo pacman -S lxappearance --noconfirm --needed
 sudo pacman -S feh --noconfirm --needed
@@ -45,6 +44,7 @@ sudo pacman -S xorg-xrandr --noconfirm --needed
 sudo pacman -S gvfs  --noconfirm --needed
 sudo pacman -S compton  --noconfirm --needed
 sudo pacman -S volumeicon  --noconfirm --needed
+sudo pacman -S dmenu
 #sudo packer -S arandr  --noconfirm
 #run with systemadm
 #sudo packer -S systemd-ui  --noconfirm
@@ -56,119 +56,10 @@ sudo pacman -S volumeicon  --noconfirm --needed
 # steering spotify from the keyboard G15 Logitech - volume and next/previous/stop/pause
 
 echo "################################################################"
-echo "playerctl"
+echo "playerctl & pasystray"
 echo "################################################################"
 
-package="playerctl"
-
-#----------------------------------------------------------------------------------
-
-#checking if application is already installed or else install with aur helpers
-if pacman -Qi $package &> /dev/null; then
-
-	echo "################################################################"
-	echo "################## "$package" is already installed"
-	echo "################################################################"
-
-else
-
-	#checking which helper is installed
-	if pacman -Qi packer &> /dev/null; then
-
-		echo "Installing with packer"
-		packer -S --noconfirm --noedit  $package
-
-	elif pacman -Qi pacaur &> /dev/null; then
-		
-		echo "Installing with pacaur"
-		pacaur -S --noconfirm --noedit  $package
-		 	
-	elif pacman -Qi yaourt &> /dev/null; then
-
-		echo "Installing with yaourt"
-		yaourt -S --noconfirm $package
-			  	
-	fi
-
-	# Just checking if installation was successful
-	if pacman -Qi $package &> /dev/null; then
-	
-	echo "################################################################"
-	echo "#########  "$package" has been installed"
-	echo "################################################################"
-
-	else
-
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-	echo "!!!!!!!!!  "$package" has NOT been installed"
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
-	fi
-
-fi
-
-
-
-
-
-echo "################################################################"
-echo "trayicon for sound for bluetooth headphone"
-echo "################################################################"
-
-
-package="pasystray-git"
-
-#----------------------------------------------------------------------------------
-
-#checking if application is already installed or else install with aur helpers
-if pacman -Qi $package &> /dev/null; then
-
-	echo "################################################################"
-	echo "################## "$package" is already installed"
-	echo "################################################################"
-
-else
-
-	#checking which helper is installed
-	if pacman -Qi packer &> /dev/null; then
-
-		echo "Installing with packer"
-		packer -S --noconfirm --noedit  $package
-
-	elif pacman -Qi pacaur &> /dev/null; then
-		
-		echo "Installing with pacaur"
-		pacaur -S --noconfirm --noedit  $package
-		 	
-	elif pacman -Qi yaourt &> /dev/null; then
-
-		echo "Installing with yaourt"
-		yaourt -S --noconfirm $package
-			  	
-	fi
-
-	# Just checking if installation was successful
-	if pacman -Qi $package &> /dev/null; then
-	
-	echo "################################################################"
-	echo "#########  "$package" has been installed"
-	echo "################################################################"
-
-	else
-
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-	echo "!!!!!!!!!  "$package" has NOT been installed"
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
-	echo "To install pasytray, go to tmp file and run from there"
-	echo "sudo pacman -U /tmp/packerbuild-1000/pasystray-git/pasystray-git/pasystray-git-0.6.0.r13.gccb5b6e-1-x86_64.pkg.tar.xz"
-	echo "Trying to run the git version"
-	sudo pacman -U /tmp/packerbuild-1000/pasystray-git/pasystray-git/pasystray-git*  --needed --noconfirm
-	fi
-
-fi
-
-
+./install-helper.sh "playerctl;pasystray-git"
 
 
 ###############################################################

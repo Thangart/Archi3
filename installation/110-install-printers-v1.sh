@@ -14,8 +14,8 @@ set -e
 
 
 sudo pacman -S cups cups-pdf ghostscript gsfonts libcups hplip system-config-printer --noconfirm --needed
-systemctl enable org.cups.cupsd.service
-systemctl start org.cups.cupsd.service
+systemctl enable cups.service
+systemctl start cups.service
 
 
 echo "################################################################"

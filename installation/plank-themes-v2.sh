@@ -18,23 +18,7 @@ echo "################################################################"
 echo "Checking if git is installed"
 echo "Install git for an easy installation"
 
-
-	# G I T
-
-	# check if git is installed
-	if which git > /dev/null; then
-		echo "git was installed. Proceding..."
-
-		else
-
-		echo "################################################################"
-		echo "installing git for this script to work"
-		echo "################################################################"
-
-	  	sudo apt-get install git -y
-		  	
-	fi
-
+./install-helper.sh "git"
 
 rm -rf /tmp/Plank-Themes
 
