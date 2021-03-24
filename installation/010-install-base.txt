@@ -1,0 +1,225 @@
+https://tonisagrista.com/blog/2020/arch-encryption/
+
+
+https://github.com/gdamjan/secure-boot
+
+
+##LUKS on LVM (possible multi disk)
+
+# show interfaces
+ip addr
+wifi-menu
+
+# Set root password
+passwd
+
+# ssh to the machine
+ssh root@x.x.x.x
+
+# Update repo
+pacman -Syyy
+
+# get disk information
+fdisk -l 
+
+# Create partition
+
+fdisk /dev/nvme0n1
+---------------------
+#  below is the fdisk command line
+#  let's start with listing the partitions
+:  p
+# Create a new GPT partition table
+:  g
+#  let's create a new 500 MB partition for EFI
+:  n, enter, enter, +500M
+#  and let's set the type to EFI
+:  t, 1
+#  finally, let's create the LVM partition
+:  n, enter, enter, enter
+#  and let's set the type to 'Linux LVM'
+:  t, enter, 30
+#  check everything is fine
+:  p
+#  write changes and exit
+:  w
+
+# Format the partitions 
+mkfs.fat -F32 /dev/nvme0n1p1
+
+# Create a pv lvm. Do this for all 
+pvcreate --dataalignment 1m /dev/nvme0n1p2 *other_disks_if_needed*
+
+# Create a vg lvm
+vgcreate volumegroup /dev/nvme0n1p2 *other_disks_if_needed* (or use vgextend)
+
+# Create the lv lvm for one root system (no home dir in this example)
+lvcreate -l 100%FREE volumegroup -n root
+
+# Encrypt the data with a secure secret key (we'll use tpm or yubikey auth later on)
+cryptsetup luksFormat /dev/mapper/volumegroup-root
+
+# Mount the luksvolume to a mapper target
+cryptsetup open --type luks /dev/mapper/volumegroup-root root
+
+# Format the unlocked root partition
+mkfs.ext4 /dev/mapper/root
+
+# Mount the volumes for install of the base system
+mount /dev/mapper/root /mnt
+mkdir /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
+mkdir /mnt/etc
+
+# Create genfstab file
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# Install the base system
+pacstrap -i /mnt base linux linux-firmware
+
+# Chroot to the system
+arch-chroot /mnt
+
+# Set time zone info
+ln -sf /usr/share/zoneinfo/Europe/Amsterdam /etc/localtime
+hwclock --systohc
+
+# Install networking, editor, git and base software
+pacman -S linux-headers intel-ucode base-devel vim networkmanager wpa_supplicant netctl dialog lvm2 git
+
+# Enable network manager
+systemctl enable NetworkManager
+
+# Set hostname
+echo "HOSTNAME" > /etc/hostname
+
+# Edit hosts file with new host names
+echo """127.0.0.1	localhost
+::1		    localhost
+127.0.1.1	HOSTNAME.localdomain	HOSTNAME""" > /etc/hosts
+
+# Edit /etc/mkinitcpio.conf with the following config
+[...]
+HOOKS=(base udev autodetect modconf block lvm2 encrypt filesystems keyboard fsck)
+[...]
+
+# Run mkinitcpio
+mkinitcpio -p linux
+
+# Edit locale.gen to get correct locals
+echo """nl_NL.UTF-8 UTF-8
+en_GB.UTF-8  UTF-8""" >> /etc/locale.gen
+
+# run locale-generator
+locale-gen
+
+# Change root password
+passwd
+
+# Add a user
+useradd -m -g users -G wheel username
+
+# change 'username' password
+passwd username
+
+# edit the visudo file to make the whell group use sudo
+EDITOR=vim visudo
+
+# Change in visudo
+[...]
+%wheel ALL=(ALL) ALL
+[...]
+
+# Install systemd boot
+bootctl install
+
+
+# Create a loader with temp edit enabled
+echo """default arch
+timeout 3
+editor """ > /boot/loader0/loader.conf
+
+# Create /boot/loader/entries/arch.conf and fill with:
+cryptuuid=$(blkid -s UUID -o value /dev/mapper/volumegroup-root)
+echo """title Arch Linux
+linux /vmlinuz-linux
+initrd /intel-ucode.img
+initrd /initramfs-linux_temp.img
+options cryptdevice=UUID=$cryptuuid:root root=/dev/mapper/root quiet rw""" > /boot/loader/entries/arch.conf
+
+
+################################################################
+## TPM 2.0 addon WIP
+# Do this to enable the use of a tpm 2.0 module
+pacman -S clevis libpwquality tpm2-tools
+clevis luks bind -d /dev/mapper/volumegroup-root tpm2 '{}'
+
+
+# install dracut for initramfs init
+pacman -S libpwquality luksmeta nmap dracut
+
+# Create /boot/loader/entries/dracut.conf and fill with:
+cryptuuid=$(blkid -s UUID -o value /dev/mapper/volumegroup-root)
+echo """title Arch Linux with dracut
+linux /vmlinuz-linux
+initrd /intel-ucode.img
+initrd /initramfs-linux.img
+options rd.luks.uuid=luks-$cryptuuid rd.lvm.lv=volumegroup/root   root=/dev/mapper/root rootfstype=ext4 rootflags=rw,relatime""" > /boot/loader/entries/dracut.conf
+
+
+
+
+
+# install booster for initramfs
+pacman -S booster
+
+# make an init with booster
+uuid=$(blkid -s UUID -o value /dev/mapper/root)
+cryptuuid=$(blkid -s UUID -o value /dev/mapper/volumegroup-root)
+echo """title Arch Linux with booster
+linux /vmlinuz-linux
+initrd /intel-ucode.img
+initrd /booster-linux.img
+options rd.luks.uuid=$cryptuuid:root root=UID=$uuid quiet rw""" > /boot/loader/entries/booster.conf
+
+
+## end of tpm2.0
+################################################################
+
+### yubikey FDE and user pam
+
+## FDE
+
+# Install yubikey manager software and FDE package
+pacman -S yubikey-manager yubikey-full-disk-encryption 
+systemctl enable --now pcscd.service
+
+## pam
+
+# Install pam yubikey software
+pacman -S yubikey-manager pam-u2f
+
+# setup the user keys (yubikey should be present)
+hostname=$(cat /etc/hostname)
+mkdir -p ~/.config/Yubico
+pamu2fcfg -o pam://$hostname -i pam://$hostname > ~/.config/Yubico/u2f_keys
+
+# add the config to pam for passwordless sudo
+# Change sufficient to required if needed (full unlock with yubikey or yubikey + password login)
+hostname=$(cat /etc/hostname)
+echo "auth            sufficient      pam_u2f.so origin=pam://$hostname appid=pam://$hostname" >> /etc/pam.d/sudo
+
+####
+# After full install you can add the next line so that a yubikey is required to login.
+hostname=$(cat /etc/hostname)
+echo "auth            required      pam_u2f.so nouserok origin=pam://hostname appid=pam://hostname" >> /etc/pam.d/lightdm-greeter
+####
+
+
+## End of yubikey install
+
+# now reboot the system
+exit
+umount -R /mnt
+cryptsetup close root
+reboot
