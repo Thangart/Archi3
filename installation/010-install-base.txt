@@ -113,10 +113,7 @@ en_GB.UTF-8  UTF-8""" >> /etc/locale.gen
 # run locale-generator
 locale-gen
 
-# Change root password
-passwd
-
-# Add a user
+# Change root passwordlvcreate --size 8G vg0 --name swap
 useradd -m -g users -G wheel username
 
 # change 'username' password
