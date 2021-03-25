@@ -11,8 +11,7 @@
 #
 ##################################################################################################################
 
-./install-helper.sh "zsh;zsh-completions;zsh-syntax-highlighting;command-not-found;powerline-fonts"
-
+./install-helper.sh "zsh;zsh-completions;zsh-syntax-highlighting;command-not-found;powerline-fonts;tmux;screen"
 
 # Installation of OH-MY-ZSH from the github (best way to install!!)
 
@@ -30,6 +29,15 @@ sudo sed -i 's/ZSH_THEME=\"robbyrussell\"/ZSH_THEME=\"agnoster\"/g' ~/.zshrc
 # go find the hidden .zshrc file and look for ZSH_THEME="robbyrussell" (CTRL+H to find hidden files)
 # change this to ZSH_THEME="random"
 
+# Change default shell to zsh
+username=$(whoami)
+sudo chsh -s /bin/zsh $username
+
+# set tmux to autostart
+echo `[[ $TERM != "screen" ]] && exec tmux` >> ~/.zshrc
+
+# add color suppor to tmux
+echo 'set -g default-terminal "screen-256color"' >> ~/.tmux.conf
 
 
 

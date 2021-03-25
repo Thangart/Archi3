@@ -97,7 +97,7 @@ sh install-visual-studio-code-v1.sh
 
 # zsh
 
-sh install-zsh-v1.sh
+sh install-zsh-and-tmux-v1.sh
 
 ###############################################################################################
 
