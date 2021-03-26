@@ -36,10 +36,6 @@ sudo chsh -s /bin/zsh $username
 # set tmux to autostart
 echo `[[ $TERM != "screen" ]] && exec tmux` >> ~/.zshrc
 
-# add color suppor to tmux
-echo 'set -g default-terminal "screen-256color"' >> ~/.tmux.conf
-
-
 
 echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
