@@ -99,12 +99,13 @@ pacman -S linux-headers intel-ucode base-devel vim networkmanager wpa_supplicant
 systemctl enable NetworkManager
 
 # Set hostname
-echo "HOSTNAME" > /etc/hostname
+hostname="HOSTNAME"
+echo $hostname > /etc/hostname
 
 # Edit hosts file with new host names
 echo """127.0.0.1	localhost
 ::1		    localhost
-127.0.1.1	HOSTNAME.localdomain	HOSTNAME""" > /etc/hosts
+127.0.1.1	$hostname.localdomain	$hostname""" > /etc/hosts
 
 # Enable crypted swap
 echo "swap      /dev/mapper/volumegroup-swap    /dev/urandom   swap,cipher=aes-xts-plain64,size=256" >> /etc/crypttab
@@ -125,10 +126,11 @@ en_GB.UTF-8  UTF-8""" >> /etc/locale.gen
 locale-gen
 
 # Change root passwordlvcreate --size 8G vg0 --name swap
-useradd -m -g users -G wheel username
+user=USERNAME
+useradd -m -g users -G wheel $user
 
 # change 'username' password
-passwd username
+passwd $user
 
 # edit the visudo file to make the whell group use sudo
 EDITOR=vim visudo
