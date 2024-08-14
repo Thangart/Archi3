@@ -18,7 +18,7 @@ echo "################################################################"
 echo "i 3  improved tiling core files"
 echo "################################################################"
 
-sudo pacman -S --noconfirm --needed i3lock i3status 
+sudo pacman -S --noconfirm --needed i3lock i3status i3-wm
 
 ./install-helper.sh "j4-dmenu-desktop;i3blocks;i3-gaps-next-git;lightdm;lightdm-gtk-greeter"
 sudo systemctl enable lightdm

@@ -67,7 +67,7 @@ sh install-awesome-font-v1.sh
 
 # Spotify
 
-sh install-spotify-v1.sh
+# sh install-spotify-v1.sh
 
 ###############################################################################################
 

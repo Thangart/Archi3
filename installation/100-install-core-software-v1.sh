@@ -28,6 +28,7 @@ sudo pacman -S --noconfirm --needed simplescreenrecorder
 sudo pacman -S --noconfirm --needed terminator transmission-cli transmission-gtk
 sudo pacman -S --noconfirm --needed variety vlc vnstat wget unclutter  
 sudo pacman -S --noconfirm --needed man-db
+sudo pacman -S --noconfirm --needed bluez bluez-utils blueman
 
 # Install gksu trough aur
 ./install-helper.sh "gksu"
